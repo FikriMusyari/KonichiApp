@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Konichi</string>
+    <string name="title_activity_register">Register</string>
+    <string name="create_naccount">Create Account</string>
+    <string name="name">Name</string>
+    <string name="enter_your_name">Enter your Name</string>
+    <string name="password">Password</string>
+    <string name="title_activity_main_screen">MainActivityScreen</string>
+    <string name="title_activity_main2">MainActivity2</string>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "947475768694",
+    "project_id": "pb-uts",
+    "storage_bucket": "pb-uts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:947475768694:android:5783e2731162e72b0f8657",
+        "android_client_info": {
+          "package_name": "com.fmt.konichi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDQxXfHmntE-fQRGbcl8vxQRH6sO9n2rM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
