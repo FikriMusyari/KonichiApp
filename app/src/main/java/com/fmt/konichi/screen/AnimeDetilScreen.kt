@@ -1,6 +1,5 @@
 package com.fmt.konichi.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
+import coil3.compose.AsyncImage
 import com.fmt.konichi.viewmodel.AnimeDetilViewModel
 
 @Composable
@@ -43,8 +42,8 @@ fun AnimeDetilScreen(viewModel: AnimeDetilViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Image(
-                painter = rememberAsyncImagePainter(data.imageUrl),
+            AsyncImage(
+                model = data.imageUrl,
                 contentDescription = data.title,
                 modifier = Modifier
                     .fillMaxWidth()

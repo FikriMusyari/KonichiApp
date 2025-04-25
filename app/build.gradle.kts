@@ -45,7 +45,7 @@ android {
 
 dependencies {
 
-    // Fonts Poppins
+    // Fonts
     implementation ("androidx.compose.ui:ui-text-google-fonts:1.4.0")
 
     // Retrofit

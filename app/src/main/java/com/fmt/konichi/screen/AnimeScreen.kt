@@ -1,7 +1,6 @@
 package com.fmt.konichi.screen
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,10 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil3.compose.rememberAsyncImagePainter
+import coil3.compose.AsyncImage
 import com.fmt.konichi.Model.Anime
 import com.fmt.konichi.Screen
 import com.fmt.konichi.viewmodel.AnimeViewModel
@@ -56,10 +54,8 @@ fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     var searchJob by remember { mutableStateOf<Job?>(null) }
 
-    Scaffold { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding)
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 .fillMaxSize()
         ) {
@@ -118,7 +114,6 @@ fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
             }
         }
     }
-}
 
 
 @Composable
@@ -142,8 +137,8 @@ fun AnimeItem(anime: Anime, navController: NavController) {
                 .fillMaxWidth()
                 .padding(12.dp)
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(anime.imageUrl),
+            AsyncImage(
+                model = anime.imageUrl,
                 contentDescription = anime.title,
                 modifier = Modifier
                     .size(width = 100.dp, height = 140.dp)
@@ -186,3 +181,4 @@ fun AnimeItem(anime: Anime, navController: NavController) {
         }
     }
 }
+
