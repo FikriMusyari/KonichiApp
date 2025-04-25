@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "947475768694",
+    "firebase_url": "https://pb-uts-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "pb-uts",
     "storage_bucket": "pb-uts.firebasestorage.app"
   },

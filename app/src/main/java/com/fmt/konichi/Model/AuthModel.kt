@@ -33,7 +33,7 @@ class AuthModel : ViewModel() {
                 if (it.isSuccessful){
 
                     val uid = it.result?.user?.uid
-                    val users = User(uid,name,password,email)
+                    val users = User(uid,name,email,password)
                     if (uid != null) {
                         database.getReference("User").child(uid).setValue(users)
                             .addOnCompleteListener{task1 ->
