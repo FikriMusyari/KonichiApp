@@ -5,4 +5,10 @@ sealed class Screen(val route: String) {
     data object AnimeDetail : Screen("anime_detail/{malId}") {
         fun createRoute(malId: Int) = "anime_detail/$malId"
     }
+
+    data object MangaList : Screen("manga_list")
+    data object MangaDetail : Screen("manga_detail/{malId}") {
+        fun createRoute(malId: Int) = "manga_detail/$malId"
+    }
 }
+
