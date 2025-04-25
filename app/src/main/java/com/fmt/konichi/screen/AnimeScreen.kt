@@ -1,6 +1,7 @@
 package com.fmt.konichi.screen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,13 +39,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
 import com.fmt.konichi.Model.Anime
 import com.fmt.konichi.Screen
 import com.fmt.konichi.viewmodel.AnimeViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.fmt.konichi.components.BottomNavigationBar
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.RoundedCornerShape
+
+
 
 @Composable
 fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
@@ -54,9 +60,14 @@ fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     var searchJob by remember { mutableStateOf<Job?>(null) }
 
+    Scaffold(
+        containerColor = Color(0xFFF2F2F2), // sama dengan background halaman login
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                .padding(innerPadding)
+                .padding(horizontal = 24.dp, vertical = 20.dp)
                 .fillMaxSize()
         ) {
             OutlinedTextField(
@@ -69,7 +80,9 @@ fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
                         viewModel.searchAnime(query)
                     }
                 },
-                label = { Text("Search Anime") },
+                label = {
+                    Text("Search Anime", color = Color.Black)
+                },
                 singleLine = true,
                 trailingIcon = {
                     if (query.isNotEmpty()) {
@@ -77,35 +90,49 @@ fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
                             query = ""
                             viewModel.searchAnime("")
                         }) {
-                            Icon(Icons.Default.Close, contentDescription = "Clear")
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Clear",
+                                tint = Color.Black
+                            )
                         }
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .padding(vertical = 2.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                    focusedContainerColor = Color(0xFFD7D6D7),
+                    unfocusedContainerColor = Color(0xFFD7D6D7),
+                    focusedBorderColor = Color(0xFF047857),
+                    unfocusedBorderColor = Color(0xFF047857),
+                    cursorColor = Color(0xFF047857)
+                ),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    color = Color.Black,
+//                    lineHeight = 20.sp
                 )
             )
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             when {
                 isLoading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(color = Color(0xFF047857))
                     }
                 }
 
                 animeList.isEmpty() -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("No anime found", style = MaterialTheme.typography.bodyLarge)
+                        Text("No anime found", color = Color.Black)
                     }
                 }
 
                 else -> {
-                    LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    LazyColumn(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                         items(animeList.size) { i ->
                             AnimeItem(anime = animeList[i], navController)
                         }
@@ -114,71 +141,76 @@ fun AnimeScreen(viewModel: AnimeViewModel, navController: NavController) {
             }
         }
     }
-
+}
 
 @Composable
 fun AnimeItem(anime: Anime, navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
+            .clip(RoundedCornerShape(12.dp))
             .clickable {
                 navController.navigate(Screen.AnimeDetail.createRoute(anime.malId))
             },
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.background,
+        color = Color.White,
+        shadowElevation = 4.dp,
         border = BorderStroke(
-            0.5.dp,
-            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-        ) // faint border
+            1.dp,
+            Color(0xFF047857) // sama seperti login
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(16.dp)
         ) {
-            AsyncImage(
-                model = anime.imageUrl,
+            Image(
+                painter = rememberAsyncImagePainter(anime.imageUrl),
                 contentDescription = anime.title,
                 modifier = Modifier
                     .size(width = 100.dp, height = 140.dp)
-                    .clip(MaterialTheme.shapes.medium),
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = anime.title,
                     style = MaterialTheme.typography.titleMedium,
+                    color = Color.Black,
                     maxLines = 2
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = "⭐ ${anime.score}",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "Year: ${anime.aired}", // ✅ replace with real year if available
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Color(0xFF047857)
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
+                    text = "Year: ${anime.aired}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.DarkGray
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Text(
                     text = anime.synopsis.take(100) + "...",
                     style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray,
                     maxLines = 3
                 )
             }
         }
     }
 }
+
+
 

@@ -41,7 +41,7 @@ class MainActivity2 : ComponentActivity() {
                 }
                 composable(Screen.MangaList.route) {
                     val viewModel: MangaViewModel = hiltViewModel()
-//                    MangaScreen(viewModel, navController)
+                    MangaScreen(viewModel, navController)
                 }
                 composable(Screen.MangaDetail.route) {
                     val viewModel: MangaDetilViewModel = hiltViewModel()
