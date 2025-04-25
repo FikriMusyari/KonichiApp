@@ -2,9 +2,13 @@ package com.fmt.konichi.di
 
 import com.fmt.konichi.data.repo.AnimeRepo
 import com.fmt.konichi.data.repo.AnimeRepoImpl
+import com.fmt.konichi.data.repo.MangaRepo
+import com.fmt.konichi.data.repo.MangaRepoImpl
 import com.fmt.konichi.data.services.ApiService
 import com.fmt.konichi.usecase.GetAnimeDetilUseCase
 import com.fmt.konichi.usecase.SearchAnimeUseCase
+import com.fmt.konichi.usecase.GetMangaDetilUseCase
+import com.fmt.konichi.usecase.SearchMangaUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,4 +49,20 @@ object AppModule {
     @Singleton
     fun provideGetAnimeDetailUseCase(repo: AnimeRepo): GetAnimeDetilUseCase =
         GetAnimeDetilUseCase(repo)
+
+    @Provides
+    @Singleton
+    fun provideMangaRepository(api: ApiService): MangaRepo =
+        MangaRepoImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideSearchMangaUseCase(repo: MangaRepo): SearchMangaUseCase =
+        SearchMangaUseCase(repo)
+
+    @Provides
+    @Singleton
+    fun provideGetMangaDetailUseCase(repo: MangaRepo): GetMangaDetilUseCase =
+        GetMangaDetilUseCase(repo)
+
 }

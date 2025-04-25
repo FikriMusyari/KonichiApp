@@ -161,16 +161,20 @@ fun LoginScreen(authModel: AuthModel) {
 
             // Login button
             Button(
-                onClick = {  authModel.login(email,password){sukses, pesan ->
-                    if (sukses){
-                        val res = Intent(context, MainActivity2::class.java)
-                        context.startActivity(res)
-                        Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                onClick = {
+                    authModel.login(email, password) { sukses, pesan ->
+                        if (sukses) {
+                            val res = Intent(context, MainActivity2::class.java)
+                            // Ubah ini kalau mau ke AnimeList: Screen.AnimeList.route
+                            res.putExtra("startDestination", Screen.MangaList.route)
+                            context.startActivity(res)
+                            Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
+                        }
                     }
+                },
 
-                } },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
