@@ -1,10 +1,6 @@
-package com.fmt.konichi
+package com.fmt.konichi.screen
 
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,8 +19,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,31 +35,42 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
-import com.fmt.konichi.Model.AuthModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.fmt.konichi.R
+import com.fmt.konichi.Screen
+import com.fmt.konichi.viewmodel.AuthViewModel
+import com.fmt.konichi.usecase.AuthResult
 
-class Register : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val viewmodel = ViewModelProvider(this)[AuthModel::class.java]
-
-        setContent {
-            SignupScreen(authModel = viewmodel)
-        }
-    }
-}
 
 @Composable
-fun SignupScreen(authModel: AuthModel) {
+fun SignupScreen(viewModel: AuthViewModel, navController: NavController) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val authState by viewModel.authState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthResult.Success -> {
+
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Register.route) { inclusive = true }
+                }
+                Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
+            }
+            is AuthResult.Error -> {
+
+                val errorMessage = (authState as AuthResult.Error).message
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Background dengan efek blur
@@ -174,15 +181,7 @@ fun SignupScreen(authModel: AuthModel) {
             
             // Signup Button
             Button(
-                onClick = { authModel.signUp(email,name,password,confirmPassword){sukses, pesan ->
-                    if (sukses){
-                        val res = Intent(context, MainActivity::class.java)
-                        context.startActivity(res)
-                        Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(context, pesan, Toast.LENGTH_SHORT).show()
-                    }
-                } },
+                onClick = { viewModel.signUp(email, name, password, confirmPassword)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
@@ -220,8 +219,7 @@ fun SignupScreen(authModel: AuthModel) {
                         )
                         .padding(horizontal = 30.dp, vertical = 7.dp)
                         .clickable {
-                            val res = Intent(context, MainActivity::class.java)
-                            context.startActivity(res)
+                            navController.navigate(Screen.Login.route)
                         }
                 )
             }
