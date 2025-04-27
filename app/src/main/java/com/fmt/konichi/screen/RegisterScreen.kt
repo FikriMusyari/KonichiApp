@@ -41,8 +41,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.fmt.konichi.R
 import com.fmt.konichi.Screen
-import com.fmt.konichi.viewmodel.AuthViewModel
 import com.fmt.konichi.usecase.AuthResult
+import com.fmt.konichi.viewmodel.AuthViewModel
 
 
 @Composable
@@ -217,7 +217,7 @@ fun SignupScreen(viewModel: AuthViewModel, navController: NavController) {
                             color = Color(0xFF047857), // stroke color
                             shape = RoundedCornerShape(10.dp)
                         )
-                        .padding(horizontal = 30.dp, vertical = 7.dp)
+                        .padding(horizontal = 7.dp, vertical = 7.dp)
                         .clickable {
                             navController.navigate(Screen.Login.route)
                         }

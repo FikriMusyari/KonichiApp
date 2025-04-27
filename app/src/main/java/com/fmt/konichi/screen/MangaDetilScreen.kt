@@ -1,6 +1,5 @@
 package com.fmt.konichi.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.rememberAsyncImagePainter
+import coil3.compose.AsyncImage
 import com.fmt.konichi.viewmodel.MangaDetilViewModel
 
 @Composable
@@ -42,8 +41,8 @@ fun MangaDetilScreen(viewModel: MangaDetilViewModel) {
                 .verticalScroll(rememberScrollState())
                 .background(Color(0xFFF2F2F2))
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(data.imageUrl),
+            AsyncImage(
+                model = data.imageUrl,
                 contentDescription = data.title,
                 modifier = Modifier
                     .fillMaxWidth()

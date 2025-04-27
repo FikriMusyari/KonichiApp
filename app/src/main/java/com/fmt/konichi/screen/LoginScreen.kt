@@ -43,8 +43,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.fmt.konichi.R
 import com.fmt.konichi.Screen
-import com.fmt.konichi.viewmodel.AuthViewModel
 import com.fmt.konichi.usecase.AuthResult
+import com.fmt.konichi.viewmodel.AuthViewModel
 
 
 @Composable
@@ -131,7 +131,7 @@ fun LoginScreen(viewModel: AuthViewModel, navController: NavController) {
                     )
                     .height(50.dp)
                     .padding(12.dp),
-                textStyle = TextStyle(fontSize = 18.sp, color = Color.Gray)
+                textStyle = TextStyle(fontSize = 18.sp, color = Color.Blue)
             )
 
             Spacer(modifier = Modifier.height(32.dp))
