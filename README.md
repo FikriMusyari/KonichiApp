@@ -3,8 +3,8 @@
 Konichi is an Android app that helps keep track of Anime and Manga watch lists.
 
 Group:
-1. Fikri Musyari Taufiq
-2. Muhammad Taqi'i Roswa
+1. Fikri Musyari Taufiq (12350110187)
+2. Muhammad Taqi'i Roswa (12350110945)
 
 ## Tech Stack
 * Fully Kotlin(Jetpack-Compose)
@@ -16,5 +16,5 @@ Group:
 * [Firebase Database](https://firebase.google.com/docs/database) for data user
 
 ## Demo
-
+* [Demo Aplikasi Konichi](https://youtube.com/shorts/r8Qujxzzqvc?feature=share)
 
